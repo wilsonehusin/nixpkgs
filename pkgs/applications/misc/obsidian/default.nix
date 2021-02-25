@@ -40,17 +40,14 @@ in stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ makeWrapper graphicsmagick ];
 
-  unpackPhase = ''
-    tar -xf $src
-  '';
-
   installPhase = ''
     mkdir -p $out/bin
 
     makeWrapper ${electron}/bin/electron $out/bin/obsidian \
       --add-flags $out/share/electron/app.asar
 
-    install -m 444 -D obsidian-${version}/resources/*.asar $out/share/electron/
+    install -m 444 -D resources/app.asar $out/share/electron/app.asar
+    install -m 444 -D resources/obsidian.asar $out/share/electron/obsidian.asar
 
     install -m 444 -D "${desktopItem}/share/applications/"* \
       -t $out/share/applications/
